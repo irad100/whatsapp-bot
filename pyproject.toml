@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "photos-bot"
+version = "0.1.0"
+description = "WhatsApp Daily Photo Bot"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Irad Aharoni", email = "irad.aharoni@gmail.com"}
+]
+dependencies = [
+    "requests",
+    "pywa",
+    "python-dotenv",
+    "pillow",
+    "schedule",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+    "mypy",
+    "types-requests",
+]
+
+[project.scripts]
+photos-bot = "photos_bot.cli:main"
+
+[tool.setuptools]
+packages = ["photos_bot"]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "I", "W", "N"]
+# Group imports for sorting
+src = ["photos_bot"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.ruff.isort]
+# Configure isort settings within ruff
+known-first-party = ["photos_bot"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = ["PIL.*", "schedule.*", "pywa.*"]
+ignore_missing_imports = true
