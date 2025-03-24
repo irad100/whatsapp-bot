@@ -133,7 +133,6 @@ def cleanup() -> None:
 def test_whatsapp_connection(
     api_token: str,
     phone_number_id: str,
-    phone_number_to_send_to: str,
 ) -> bool:
     """Test the WhatsApp API connection and credentials"""
     logger.info("Testing WhatsApp API connection...")

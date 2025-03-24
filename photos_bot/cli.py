@@ -69,10 +69,7 @@ def main():
 
     # If testing connection only
     if args.test_connection:
-        receiver = get_required_config(
-            args, "RECEIVER_NUMBER", "number", required=False
-        )
-        success = test_whatsapp_connection(api_token, phone_number_id, receiver)
+        success = test_whatsapp_connection(api_token, phone_number_id)
         sys.exit(0 if success else 1)
 
     # For direct sending modes, we need the receiver number
