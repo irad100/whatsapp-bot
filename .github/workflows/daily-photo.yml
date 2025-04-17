@@ -13,36 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        id: setup-python
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: '3.11'
-
-      - name: Restore cached virtualenv
-        uses: actions/cache/restore@v4
-        with:
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('pyproject.toml', 'setup.py', 'requirements.txt') }}
-          path: .venv
-
-      - name: Install dependencies
-        run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          python -m pip install --upgrade pip
-          pip install -e .
-          echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
-          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
-
-      - name: Save cached virtualenv
-        uses: actions/cache/save@v4
-        with:
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('pyproject.toml', 'setup.py', 'requirements.txt') }}
-          path: .venv
+          enable-cache: true
 
       - name: Run whatsapp bot
         env:
           WHATSAPP_API_TOKEN: ${{ secrets.WHATSAPP_API_TOKEN }}
           WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
           RECEIVER_NUMBER: ${{ secrets.RECEIVER_NUMBER }}
-        run: whatsapp-bot
+        run: uv run --frozen whatsapp-bot

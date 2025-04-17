@@ -7,18 +7,12 @@ A Python bot that sends a daily photo with author attribution from the Chromecas
 ### From Source
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/photos-bot.git
-cd photos-bot
+# Clone the repository (replace yourusername/whatsapp-bot with the actual path)
+git clone https://github.com/yourusername/whatsapp-bot.git
+cd whatsapp-bot
 
-# Install the package
-pip install -e .
-```
-
-### Using pip (once published)
-
-```bash
-pip install photos-bot
+# Run the script
+uv run whatsapp-bot
 ```
 
 ## GitHub Actions Integration
@@ -49,9 +43,6 @@ The repository includes a test workflow that verifies your WhatsApp connection i
    # WhatsApp receiver phone number (with country code)
    RECEIVER_NUMBER="+1234567890"
 
-   # Time to send the daily photo (24-hour format)
-   SEND_TIME="08:00"
-
    # WhatsApp Business API settings
    WHATSAPP_API_TOKEN="<TOKEN>"
    WHATSAPP_PHONE_NUMBER_ID="<PHONE_NUMBER_ID>"
@@ -61,26 +52,26 @@ The repository includes a test workflow that verifies your WhatsApp connection i
 
 ### Command Line
 
+The script reads credentials and the receiver number from environment variables or command-line arguments.
+
 ```bash
-# Run the bot normally (scheduled mode)
-photos-bot
+# Run the bot using environment variables from .env
+whatsapp-bot
 
-# Test by sending a photo immediately
-photos-bot --test
-
-# Specify all parameters manually
-photos-bot --time "18:30" --number "+1234567890" --token "<TOKEN>" --phone-id "<PHONE_NUMBER_ID>"
+# Specify all parameters manually (overrides environment variables)
+whatsapp-bot --number "+1234567890" --token "<TOKEN>" --phone-id "<PHONE_NUMBER_ID>"
 ```
 
 ### As a Python Package
 
 ```python
-from photos_bot.core import send_daily_photo
+from whatsapp_bot.core import send_daily_photo
 
-# Send a photo immediately (basic usage)
-send_daily_photo("+1234567890", "<TOKEN>", "<PHONE_NUMBER_ID>")
+# Send a photo immediately (basic usage, reads credentials from env)
+# Make sure WHATSAPP_API_TOKEN and WHATSAPP_PHONE_NUMBER_ID are set
+send_daily_photo(receiver_number="+1234567890")
 
-# With named parameters
+# With all parameters specified
 send_daily_photo(
     receiver_number="+1234567890",
     api_token="<TOKEN>",
@@ -113,8 +104,7 @@ For more details, see:
 - Fetches beautiful photos from Chromecast backgrounds collection
 - Sends daily photos with author attribution via WhatsApp Business API
 - Uses pywa library for simplified WhatsApp integration
-- Configurable send time
-- Retry mechanism if photo fails to send
+- Reads configuration from environment variables or CLI arguments
 - Logs activity
 
 ## Requirements
@@ -127,14 +117,17 @@ For more details, see:
 
 ```bash
 # Install development dependencies
-pip install -e ".[dev]"
+uv pip install -e ".[dev]"
 
-# Run tests
-pytest
+# Run tests (if any are configured)
+# pytest  <- Add this back if you have pytest tests configured
 
 # Format code
-ruff format photos_bot
+ruff format whatsapp_bot
 
 # Lint code
-ruff check photos_bot
+ruff check whatsapp_bot
+
+# Type check code
+mypy whatsapp_bot
 ```
