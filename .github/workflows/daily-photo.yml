@@ -2,8 +2,8 @@ name: Daily Photo Bot
 
 on:
   schedule:
-    # Run daily at 7:15 AM UTC
-    - cron: '15 7 * * *'
+    # Run daily at 7:15 AM UTC+3
+    - cron: '15 4 * * *'
   workflow_dispatch:  # Allow manual triggers for testing
 
 jobs:
@@ -40,9 +40,9 @@ jobs:
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('pyproject.toml', 'setup.py', 'requirements.txt') }}
           path: .venv
 
-      - name: Run photo bot
+      - name: Run whatsapp bot
         env:
           WHATSAPP_API_TOKEN: ${{ secrets.WHATSAPP_API_TOKEN }}
           WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
           RECEIVER_NUMBER: ${{ secrets.RECEIVER_NUMBER }}
-        run: photos-bot --send 
+        run: whatsapp-bot

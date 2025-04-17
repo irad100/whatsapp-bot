@@ -1,60 +1,35 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "photos-bot"
-version = "0.1.0"
+name = "whatsapp-bot"
+version = "0.2.0"
 description = "WhatsApp Daily Photo Bot"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
-authors = [
-    {name = "Irad Aharoni", email = "irad.aharoni@gmail.com"}
-]
-dependencies = [
-    "requests",
-    "pywa",
-    "python-dotenv",
-    "pillow",
-    "schedule",
+authors = [{ name = "Irad Aharoni" }]
+maintainers = [{ name = "Irad Aharoni", email = "irad.aharoni@gmail.com" }]
+keywords = ["whatsapp", "bot", "daily", "photo"]
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "ruff",
-    "mypy",
-    "types-requests",
+dependencies = [
+    "dotenv>=0.9.9",
+    "pywa>=2.7.0",
+    "requests>=2.32.3",
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project.scripts]
-photos-bot = "photos_bot.cli:main"
+whatsapp-bot = "whatsapp_bot.__main__:main"
 
-[tool.setuptools]
-packages = ["photos_bot"]
-
-[tool.ruff]
-line-length = 88
-select = ["E", "F", "I", "W", "N"]
-# Group imports for sorting
-src = ["photos_bot"]
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-line-ending = "auto"
-
-[tool.ruff.isort]
-# Configure isort settings within ruff
-known-first-party = ["photos_bot"]
-section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
-
-[tool.mypy]
-python_version = "3.10"
-warn_return_any = true
-warn_unused_configs = true
-
-[[tool.mypy.overrides]]
-module = ["PIL.*", "schedule.*", "pywa.*"]
-ignore_missing_imports = true
+[tool.uv]
+dev-dependencies = [
+    "mypy>=1.15.0",
+    "ruff>=0.11.2",
+]

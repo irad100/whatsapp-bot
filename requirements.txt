@@ -1,5 +1,0 @@
-requests
-pywa
-python-dotenv
-pillow
-types-requests 
